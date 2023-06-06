@@ -5,6 +5,7 @@ import {
 } from "../redux/api/authApiSlice";
 import Loading from "../components/Loading";
 import { useNavigate, useParams } from "react-router-dom";
+import { message } from "antd";
 
 const UserActivationPage = () => {
   const navigate = useNavigate();
@@ -20,20 +21,21 @@ const UserActivationPage = () => {
     { error, isError: resendTokenError, isLoading: resendLoading },
   ] = useResendTokenMutation();
 
-  console.log(resendLoading, resendTokenError, error, id);
-
   const handleResendToken = async () => {
     try {
       const data = await resendToken({ id }).unwrap();
-      console.log(data);
+      if (data?.success === true) {
+        message.success(data?.message);
+        navigate("/auth", { replace: true });
+      }
     } catch (error) {
-      console.log(error);
+      message.error(error?.message);
     }
   };
 
   if (isLoading) {
     return (
-      <div className='w-full h-full bg-linkedin flex justify-center items-center'>
+      <div className='w-screen h-screen flex flex-col justify-center items-center bg-slate-300'>
         <Loading label='Checking activation token...' />
       </div>
     );
