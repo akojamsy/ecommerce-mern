@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-blue {
+    @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
+  }
+  .custom_container {
+    @apply w-11/12 hidden sm:block;
+  }
+
+  .heading {
+    @apply text-[27px] text-center md:text-start font-[600] font-Poppins pb-[20px];
+  }
+  .section {
+    @apply w-11/12 mx-auto;
+  }
+  .productTitle {
+    @apply text-[25px] font-[600] font-Poppins text-[#333];
+  }
+  .productDiscountPrice {
+    @apply font-bold text-[18px] text-[#333] font-Poppins;
+  }
+  .price {
+    @apply font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through;
+  }
+
+  .shop_name {
+    @apply pt-3 text-[15px] text-blue-400 pb-3;
+  }
+
+  .active_indicator {
+    @apply absolute bottom-[-27%] left-0 h-[3px] w-full bg-[crimson];
+  }
+
+  .button {
+    @apply w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer;
+  }
+
+  .cart_button {
+    @apply px-[20px] h-[38px] rounded-[20px] bg-[#f63b60] flex items-center justify-center cursor-pointer;
+  }
+
+  .cart_button_text {
+    @apply text-[#fff] text-[16px] font-[600];
+  }
+
+  .input {
+    @apply w-full border p-1 rounded-[5px];
+  }
+
+  .activeStatus {
+    @apply w-[10px] h-[10px] rounded-full absolute top-0 right-1 bg-[#40d132];
+  }
+
+  .normalFlex {
+    @apply flex items-center;
+  }
+}
