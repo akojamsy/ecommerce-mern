@@ -14,16 +14,17 @@ const login = asyncHandler(async (req, res) => {
   const { password, email } = req.body;
 
   if (!password || !email) {
+    res.status(401);
     throw new Error("Invalid credentials.");
   }
 
   const user = await User.findOne({ email });
 
-  if (user.verified !== true) {
+  if (user?.verified === false) {
     await sendActivationToken(user, res);
   }
 
-  if (user && user.verified && (await user.matchPasswords(password))) {
+  if (user && user?.verified && (await user.matchPasswords(password))) {
     generateToken(res, user._id);
     res.status(200).json({
       _id: user._id,
@@ -32,6 +33,7 @@ const login = asyncHandler(async (req, res) => {
       avatar: user.avatar,
     });
   } else {
+    res.status(401);
     throw new Error("Invalid credentials.");
   }
 });
@@ -144,7 +146,7 @@ const resendToken = asyncHandler(async (req, res) => {
 });
 
 const getUser = asyncHandler(async (req, res) => {
-  console.log(req.user);
+  console.log("adnanda");
 });
 
 module.exports = {

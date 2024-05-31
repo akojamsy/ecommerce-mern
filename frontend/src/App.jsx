@@ -1,15 +1,18 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { Auth, UserActivationPage } from "./routes";
+import { Auth, UserActivationPage, Home } from "./routes";
 
 const App = () => {
   return (
     <Routes>
-      <Route path='/auth' element={<Auth />} />
-      <Route
-        path='/activation/:id/verify/:token'
-        element={<UserActivationPage />}
-      />
+      <Route path='/'>
+        <Route index element={<Home />} />
+        <Route path='/auth' element={<Auth />} />
+        <Route
+          path='/activation/:id/verify/:token'
+          element={<UserActivationPage />}
+        />
+      </Route>
     </Routes>
   );
 };

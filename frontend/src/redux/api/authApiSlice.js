@@ -31,11 +31,18 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: id,
       }),
     }),
+
+    getUser: builder.query({
+      query: () => ({
+        url: `/users/user`,
+      }),
+    }),
   }),
 });
 
 export const {
   useValidateTokenQuery,
+  useGetUserQuery,
   useLoginMutation,
   useRegisterMutation,
   useResendTokenMutation,

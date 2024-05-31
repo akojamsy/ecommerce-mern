@@ -1,15 +1,34 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
-import { BiErrorCircle } from "react-icons/bi";
-import { Link } from "react-router-dom";
+// import { BiErrorCircle } from "react-icons/bi";
+import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "../../utils/validators";
+import { useLoginMutation } from "../../redux/api/authApiSlice";
+import { setCredentials } from "../../redux/auth/authSlice";
+import Loading from "../Loading";
+import { message } from "antd";
+import { useDispatch } from "react-redux";
 
 const Login = ({ setAuthType }) => {
-  const [vissible, setVissible] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const onSubmit = (values, { resetForm }) => {
-    console.log(values);
+  const [vissible, setVissible] = useState(false);
+  const [login, { isError, isLoading }] = useLoginMutation();
+
+  const onSubmit = async (values, { resetForm }) => {
+    const { data, error } = await login(values);
+    if (error?.data?.message) {
+      message.success(error?.data?.message);
+      resetForm();
+      return;
+    }
+    if (data) {
+      resetForm();
+      dispatch(setCredentials(data));
+      navigate("/", { replace: true });
+    }
   };
 
   const {
@@ -28,8 +47,6 @@ const Login = ({ setAuthType }) => {
     validationSchema: loginSchema,
     onSubmit,
   });
-
-  console.log(errors);
 
   return (
     <div className='min-h-screen bg-gray-50 flex flex-col justify-center py-12  sm:px-6 lg:px-8 '>
@@ -147,9 +164,13 @@ const Login = ({ setAuthType }) => {
             <div className='w-full '>
               <button
                 type='submit'
-                className='w-full text-white bg-linkedin hover:bg-blue-500 focus:ring-4 focus:ring-linkedin font-medium rounded-lg text-sm px-5 py-2.5 mr-2  dark:bg-linkedin dark:hover:bg-blue-500 focus:outline-none dark:focus:ring-linkedin shadow-sm duration-300 transition-all'
+                class='w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 shadow-sm'
               >
-                Submit
+                {!isLoading ? (
+                  <span>Login</span>
+                ) : (
+                  <Loading label='processing...' />
+                )}
               </button>
             </div>
             <div className='normalFlex space-x-2'>

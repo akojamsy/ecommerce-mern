@@ -6,6 +6,8 @@ const authenticated = asyncHandler(async (req, res, next) => {
   let token;
   token = req.cookies.auth;
 
+  console.log(token);
+
   if (!token) {
     res.status(401).json({ message: "Login to continue this action." });
   }
